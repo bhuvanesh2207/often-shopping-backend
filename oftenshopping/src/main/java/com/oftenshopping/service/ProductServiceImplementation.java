@@ -1,0 +1,86 @@
+package com.oftenshopping.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.oftenshopping.DTO.CreateProductDTO;
+import com.oftenshopping.DTO.UpdateProductDTO;
+import com.oftenshopping.entity.Admin;
+import com.oftenshopping.entity.Product;
+import com.oftenshopping.repository.AdminRepository;
+import com.oftenshopping.repository.ProductRepository;
+
+@Service
+public class ProductServiceImplementation implements ProductService {
+
+	@Autowired
+	ProductRepository repo;
+
+	@Autowired
+	AdminRepository adrepo;
+
+	@Override
+	public void create(CreateProductDTO createDto) {
+		Admin admin = adrepo.findById(createDto.getAdminId())
+				.orElseThrow(() -> new RuntimeException("Admin not found with id: " + createDto.getAdminId()));
+
+		Product p = new Product();
+		p.setBrand(createDto.getBrand());
+		p.setCategory(createDto.getCategory());
+		p.setDescription(createDto.getDescription());
+		p.setDiscount(createDto.getDiscount());
+		p.setProductName(createDto.getProductName());
+		p.setPrice(createDto.getPrice());
+		p.setProductImage(createDto.getProductImage());
+		p.setAdmin(admin);
+		repo.save(p);
+	}
+
+	public void update(UpdateProductDTO updDto) {
+	    Product p = repo.findById(updDto.getProductId())
+	            .orElseThrow(() -> new RuntimeException("Product not found with id: " + updDto.getProductId()));
+
+	    Admin admin = adrepo.findById(updDto.getAdminId())
+	            .orElseThrow(() -> new RuntimeException("Admin not found with id: " + updDto.getAdminId()));
+
+	    p.setBrand(updDto.getBrand());
+	    p.setCategory(updDto.getCategory());
+	    p.setDescription(updDto.getDescription());
+	    p.setDiscount(updDto.getDiscount());
+	    p.setProductName(updDto.getProductName());
+	    p.setPrice(updDto.getPrice());
+	    p.setProductImage(updDto.getProductImage());
+	    p.setAdmin(admin);
+
+	    repo.save(p); // This will update the existing record
+	}
+
+
+
+	@Override
+	public void delete(Long id) {
+		repo.deleteById(id);
+	}
+
+	@Override
+	public List<Product> getAllProducts(Long id) {
+		
+		return repo.findByAdminId(id);
+	}
+
+	@Override
+	public List<Product> searchProduct(String keyword) {
+		List<Product> products = repo.searchProduct(keyword);
+		return products;
+	}
+
+	//customer product controller
+	@Override
+	public List<Product> viewAllProduct() {
+		return repo.findAll();
+	}
+
+
+}
