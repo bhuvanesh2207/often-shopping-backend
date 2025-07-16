@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Orders {
@@ -18,7 +21,7 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String PaymentId;
+	private String paymentId;
 	private LocalDateTime ordertime;
 	private Double totAmount;
 
@@ -27,24 +30,35 @@ public class Orders {
 	@JsonBackReference
 	private Customer customer;
 
+	@OneToMany(mappedBy = "orders")
+	@JsonManagedReference
+	private List<OrderItem> items;
+
+	@OneToOne(mappedBy = "order")
+	@JsonManagedReference
+	private Payment paymnet;
+
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, Customer customer) {
+	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, Customer customer,
+			List<OrderItem> items, Payment paymnet) {
 		super();
 		this.id = id;
-		PaymentId = paymentId;
+		this.paymentId = paymentId;
 		this.ordertime = ordertime;
 		this.totAmount = totAmount;
 		this.customer = customer;
+		this.items = items;
+		this.paymnet = paymnet;
 	}
 
 	@Override
 	public String toString() {
-		return "Orders [id=" + id + ", PaymentId=" + PaymentId + ", ordertime=" + ordertime + ", totAmount=" + totAmount
-				+ ", customer=" + customer + "]";
+		return "Orders [id=" + id + ", paymentId=" + paymentId + ", ordertime=" + ordertime + ", totAmount=" + totAmount
+				+ ", customer=" + customer + ", items=" + items + ", paymnet=" + paymnet + "]";
 	}
 
 	public Long getId() {
@@ -56,11 +70,11 @@ public class Orders {
 	}
 
 	public String getPaymentId() {
-		return PaymentId;
+		return paymentId;
 	}
 
 	public void setPaymentId(String paymentId) {
-		PaymentId = paymentId;
+		this.paymentId = paymentId;
 	}
 
 	public LocalDateTime getOrdertime() {
@@ -85,6 +99,22 @@ public class Orders {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
+	}
+
+	public Payment getPaymnet() {
+		return paymnet;
+	}
+
+	public void setPaymnet(Payment paymnet) {
+		this.paymnet = paymnet;
 	}
 
 }

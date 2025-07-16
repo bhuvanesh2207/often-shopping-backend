@@ -6,4 +6,6 @@ import com.oftenshopping.entity.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long>{
 
+	
+
 }

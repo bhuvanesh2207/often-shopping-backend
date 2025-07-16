@@ -17,24 +17,25 @@ import com.oftenshopping.service.CartService;
 @CrossOrigin("*")
 @RestController
 public class CartController {
-	
+
 	@Autowired
 	CartService service;
-	
+
 	@PostMapping(value = "/addToCart", consumes = "application/json", produces = "application/json")
 	public String addtocart(@RequestBody CartData data) {
 		service.addtocart(data);
 		return "success";
 	}
-	
+
 	@GetMapping("/viewCart")
-    public List<CartItemDTO> viewCart(@RequestParam String email) {
-        return service.getCartItems(email);
-    }
-	
-	 @PostMapping("/updateCartItem")
-	    public String updateCartItem(@RequestBody CartData data) {
-	        service.updateCartItem(data);
-	        return "success";
-	    }
+	public List<CartItemDTO> viewCart(@RequestParam String email) {
+		return service.getCartItems(email);
+	}
+
+	@PostMapping("/updateCartItem")
+	public String updateCartItem(@RequestBody CartData data) {
+		service.updateCartItem(data);
+		return "success";
+	}
+
 }

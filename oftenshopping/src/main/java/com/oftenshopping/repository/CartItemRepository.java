@@ -8,6 +8,9 @@ import com.oftenshopping.entity.Cart;
 import com.oftenshopping.entity.CartItem;
 import com.oftenshopping.entity.Product;
 
-public interface CartItemRepository extends JpaRepository<CartItem, Long>{
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 	Optional<CartItem> findByCartAndProduct(Cart cart, Product product);
+
+    void deleteByCart_Customer_Id(Long customerId);
+
 }

@@ -4,10 +4,12 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.oftenshopping.DTO.PaymentDTO;
 import com.oftenshopping.service.PaymentService;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
@@ -66,6 +68,11 @@ public class PaymentController {
         return KEY_ID;
     }
     
+    @PostMapping("/savePayment")
+	public void savePayment(@RequestBody PaymentDTO payDto) {
+		service.savePayment(payDto);
+	}
+	
    
     
 }

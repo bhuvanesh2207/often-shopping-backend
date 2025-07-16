@@ -15,8 +15,13 @@ public class CartItemController {
 	@Autowired
 	CartItemService service;
 	
-	@GetMapping("/deleteCart")
+	@GetMapping("/deleteCartItem")
 	public void deleteCart(@RequestParam Long id) {
 		service.deleteCart(id);
+	}
+	
+	@GetMapping("/removeAfterPay")
+	public void removeAfterPay(@RequestParam Long customerId) {
+		service.removeAfterPay(customerId);
 	}
 }

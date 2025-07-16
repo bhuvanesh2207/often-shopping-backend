@@ -39,7 +39,11 @@ import jakarta.persistence.OneToMany;
 		@OneToMany(mappedBy = "product")
 		@JsonManagedReference 
 		private List<CartItem> item;
-
+		
+		@OneToMany(mappedBy = "product")
+		@JsonManagedReference
+		private List<OrderItem> items;
+		
 		public Product() {
 			super();
 			// TODO Auto-generated constructor stub

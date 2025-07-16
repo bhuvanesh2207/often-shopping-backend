@@ -28,15 +28,27 @@ public class Customer {
 	private String password;
 
 	private String role;
-
+	
+	//cart Mapping
 	@OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Cart cart;
-
-	@OneToMany(mappedBy = "customer")
+	
+	//Order Mapping
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Orders> orders;
-
+	
+	//Payment Mapping
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Payment> payments;
+	
+	//Address mapping
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Address> addresses;
+	
 	@PrePersist
 	public void setRole() {
 		this.role = "customer";
@@ -47,7 +59,9 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(Long id, String name, String email, String password, String role, Cart cart, List<Orders> orders) {
+	
+	public Customer(Long id, String name, String email, String password, String role, Cart cart, List<Orders> orders,
+			List<Payment> payments) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -56,6 +70,7 @@ public class Customer {
 		this.role = role;
 		this.cart = cart;
 		this.orders = orders;
+		this.payments = payments;
 	}
 
 	public Long getId() {
@@ -114,10 +129,18 @@ public class Customer {
 		this.orders = orders;
 	}
 
+	public List<Payment> getPayment() {
+		return payments;
+	}
+
+	public void setPayment(List<Payment> payments) {
+		this.payments = payments;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role="
-				+ role + ", cart=" + cart + ", orders=" + orders + "]";
+				+ role + ", cart=" + cart + ", orders=" + orders + ", payments=" + payments + "]";
 	}
 
 }

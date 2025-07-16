@@ -5,24 +5,32 @@ import org.springframework.stereotype.Service;
 
 import com.oftenshopping.repository.CartItemRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
-public class CartItemServiceImplementation implements CartItemService{
+public class CartItemServiceImplementation implements CartItemService {
 
 	@Autowired
 	CartItemRepository repo;
-	
+
 	@Override
 	public void deleteCart(Long id) {
-	    // Debug print to check the received ID
-	    System.out.println("Attempting to delete cart item with ID: " + id);
-	    
-	    try {
-	        repo.deleteById(id);
-	        System.out.println("Successfully deleted cart item with ID: " + id);
-	    } catch (Exception e) {
-	        System.out.println("Failed to delete cart item with ID: " + id);
-	        e.printStackTrace(); // This will print the full error stack trace
-	    }
+		// Debug print to check the received ID
+		System.out.println("Attempting to delete cart item with ID: " + id);
+
+		try {
+			repo.deleteById(id);
+			System.out.println("Successfully deleted cart item with ID: " + id);
+		} catch (Exception e) {
+			System.out.println("Failed to delete cart item with ID: " + id);
+			e.printStackTrace(); // This will print the full error stack trace
+		}
 	}
-	
+
+	@Override
+	@Transactional 
+	public void removeAfterPay(Long customerId) {
+		repo.deleteByCart_Customer_Id(customerId);
+	}
+
 }
