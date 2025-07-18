@@ -11,11 +11,11 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class OrderItem {
-	
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long Id;
-			
+
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	@JsonBackReference
@@ -25,22 +25,26 @@ public class OrderItem {
 	@JoinColumn(name = "product_id")
 	@JsonBackReference
 	private Product product;
-	
-	
+
+	private Integer quantity;
+
 	public OrderItem() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderItem(Long id, Orders orders) {
+	public OrderItem(Long id, Orders orders, Product product, Integer quantity) {
 		super();
 		Id = id;
 		this.orders = orders;
+		this.product = product;
+		this.quantity = quantity;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderItem [Id=" + Id + ", orders=" + orders + "]";
+		return "OrderItem [Id=" + Id + ", orders=" + orders + ", product=" + product 
+				+ ", quantity=" + quantity + "]";
 	}
 
 	public Long getId() {
@@ -58,7 +62,23 @@ public class OrderItem {
 	public void setOrders(Orders orders) {
 		this.orders = orders;
 	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 	
 	
-	 
 }

@@ -91,6 +91,7 @@ public class CartServiceImplementatoin implements CartService{
 
 	        CartItemDTO dto = new CartItemDTO(
 	        	item.getId(),
+	        	product.getId(),
 	            customer.getName(),
 	            product.getProductName(),
 	            product.getProductImage(),

@@ -1,86 +1,94 @@
 package com.oftenshopping.DTO;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
 public class CartItemDTO {
 
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String customerName;
-	private String productName;
-	private String productImage;
-	private double price;
-	private int quantity;
+    private Long id; // cart_item id
+    private Long productId; // product id
+    private String customerName;
+    private String productName;
+    private String productImage;
+    private double price;
+    private int quantity;
 
-	public CartItemDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    // Default constructor
+    public CartItemDTO() {
+        super();
+    }
 
-	public CartItemDTO(Long id, String customerName, String productName, String productImage, double price,
-			int quantity) {
-		super();
-		this.id = id;
-		this.customerName = customerName;
-		this.productName = productName;
-		this.productImage = productImage;
-		this.price = price;
-		this.quantity = quantity;
-	}
+    // Parameterized constructor
+    public CartItemDTO(Long id, Long productId, String customerName, String productName, String productImage,
+                       double price, int quantity) {
+        super();
+        this.id = id;
+        this.productId = productId; // Initialize productId
+        this.customerName = customerName;
+        this.productName = productName;
+        this.productImage = productImage;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    @Override
+    public String toString() {
+        return "CartItemDTO [id=" + id + ", productId=" + productId + ", customerName=" + customerName
+                + ", productName=" + productName + ", productImage=" + productImage + ", price=" + price + ", quantity="
+                + quantity + "]";
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-	public String getCustomerName() {
-		return customerName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
+    public Long getProductId() {
+        return productId;
+    }
 
-	public String getProductName() {
-		return productName;
-	}
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public String getProductImage() {
-		return productImage;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
-	}
+    public String getProductName() {
+        return productName;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public String getProductImage() {
+        return productImage;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	@Override
-	public String toString() {
-		return "CartItemDTO [id=" + id + ", customerName=" + customerName + ", productName=" + productName
-				+ ", productImage=" + productImage + ", price=" + price + ", quantity=" + quantity + "]";
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

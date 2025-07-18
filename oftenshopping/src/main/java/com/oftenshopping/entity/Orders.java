@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,16 +22,17 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	private String paymentId;
 	private LocalDateTime ordertime;
 	private Double totAmount;
-
+	private String Address;
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	@JsonBackReference
 	private Customer customer;
 
-	@OneToMany(mappedBy = "orders")
+	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OrderItem> items;
 
@@ -43,13 +45,14 @@ public class Orders {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, Customer customer,
-			List<OrderItem> items, Payment paymnet) {
+	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, String address,
+			Customer customer, List<OrderItem> items, Payment paymnet) {
 		super();
 		this.id = id;
 		this.paymentId = paymentId;
 		this.ordertime = ordertime;
 		this.totAmount = totAmount;
+		Address = address;
 		this.customer = customer;
 		this.items = items;
 		this.paymnet = paymnet;
@@ -58,7 +61,7 @@ public class Orders {
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", paymentId=" + paymentId + ", ordertime=" + ordertime + ", totAmount=" + totAmount
-				+ ", customer=" + customer + ", items=" + items + ", paymnet=" + paymnet + "]";
+				+ ", Address=" + Address + ", customer=" + customer + ", items=" + items + ", paymnet=" + paymnet + "]";
 	}
 
 	public Long getId() {
@@ -91,6 +94,14 @@ public class Orders {
 
 	public void setTotAmount(Double totAmount) {
 		this.totAmount = totAmount;
+	}
+
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
 	}
 
 	public Customer getCustomer() {
