@@ -1,6 +1,7 @@
 package com.oftenshopping.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,5 +37,12 @@ public class AddressController {
 	public void removeAddress(Long id) {
 		service.removeAddress(id);
 	}
+	
+	@GetMapping("/getAddressById")
+	public Optional<Address> getAddressById(@RequestParam Long id) {
+		return service.getAddressById(id);
+	}
+	
+	
 
 }

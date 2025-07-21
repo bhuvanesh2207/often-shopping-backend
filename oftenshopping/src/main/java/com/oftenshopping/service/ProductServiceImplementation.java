@@ -1,6 +1,7 @@
 package com.oftenshopping.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,25 +40,23 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 	public void update(UpdateProductDTO updDto) {
-	    Product p = repo.findById(updDto.getProductId())
-	            .orElseThrow(() -> new RuntimeException("Product not found with id: " + updDto.getProductId()));
+		Product p = repo.findById(updDto.getProductId())
+				.orElseThrow(() -> new RuntimeException("Product not found with id: " + updDto.getProductId()));
 
-	    Admin admin = adrepo.findById(updDto.getAdminId())
-	            .orElseThrow(() -> new RuntimeException("Admin not found with id: " + updDto.getAdminId()));
+		Admin admin = adrepo.findById(updDto.getAdminId())
+				.orElseThrow(() -> new RuntimeException("Admin not found with id: " + updDto.getAdminId()));
 
-	    p.setBrand(updDto.getBrand());
-	    p.setCategory(updDto.getCategory());
-	    p.setDescription(updDto.getDescription());
-	    p.setDiscount(updDto.getDiscount());
-	    p.setProductName(updDto.getProductName());
-	    p.setPrice(updDto.getPrice());
-	    p.setProductImage(updDto.getProductImage());
-	    p.setAdmin(admin);
+		p.setBrand(updDto.getBrand());
+		p.setCategory(updDto.getCategory());
+		p.setDescription(updDto.getDescription());
+		p.setDiscount(updDto.getDiscount());
+		p.setProductName(updDto.getProductName());
+		p.setPrice(updDto.getPrice());
+		p.setProductImage(updDto.getProductImage());
+		p.setAdmin(admin);
 
-	    repo.save(p); // This will update the existing record
+		repo.save(p); // This will update the existing record
 	}
-
-
 
 	@Override
 	public void delete(Long id) {
@@ -66,7 +65,7 @@ public class ProductServiceImplementation implements ProductService {
 
 	@Override
 	public List<Product> getAllProducts(Long id) {
-		
+
 		return repo.findByAdminId(id);
 	}
 
@@ -76,11 +75,15 @@ public class ProductServiceImplementation implements ProductService {
 		return products;
 	}
 
-	//customer product controller
+	// customer product controller
 	@Override
 	public List<Product> viewAllProduct() {
 		return repo.findAll();
 	}
 
+	@Override
+	public List<Product> getProductById(Long id) {
+		return repo.findAllById(id);
+	}
 
 }

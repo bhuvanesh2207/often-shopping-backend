@@ -27,7 +27,7 @@ public class OrdersController {
 	}
 	
 	@GetMapping("/listOfOrders")
-	public List<Orders> listOfOrders (Long id) {
+	public List<OrderDTO> listOfOrders (Long id) {
 		return service.listOfOrders(id);
 	}
 }

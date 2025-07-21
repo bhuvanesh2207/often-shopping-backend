@@ -9,7 +9,7 @@ public interface OrdersService {
 
 	void createOrder(OrderDTO order);
 
-	List<Orders> listOfOrders(Long id);
+	List<OrderDTO> listOfOrders(Long id);
 
 
 }

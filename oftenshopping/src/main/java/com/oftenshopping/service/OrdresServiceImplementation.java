@@ -71,9 +71,34 @@ public class OrdresServiceImplementation implements OrdersService {
 
 
 	@Override
-	public List<Orders> listOfOrders(Long id) {
-		List<Orders> orders = orderRepo.findByCustomerId(id);
-		return orders;
+	public List<OrderDTO> listOfOrders(Long customerId) {
+	    List<Orders> orders = orderRepo.findByCustomerId(customerId);
+
+	    List<OrderDTO> orderDTOs = new ArrayList<>();
+
+	    for (Orders order : orders) {
+	        List<OrderItemDTO> itemDTOs = new ArrayList<>();
+
+	        for (OrderItem item : order.getItems()) {
+	            Product product = item.getProduct();
+	            OrderItemDTO itemDTO = new OrderItemDTO();
+	            itemDTO.setQuantity(item.getQuantity());
+	            itemDTO.setProductId(product.getId()); // ✅ Include productId
+	            itemDTOs.add(itemDTO);
+	        }
+
+	        OrderDTO dto = new OrderDTO();
+	        dto.setPaymentId(order.getPaymentId());
+	        dto.setOrdertime(order.getOrdertime());
+	        dto.setTotAmount(order.getTotAmount());
+	        dto.setItems(itemDTOs);
+	        dto.setAddress(order.getAddress()); // or fetch actual Address object if needed
+
+	        orderDTOs.add(dto);
+	    }
+
+	    return orderDTOs;
 	}
+
 
 }

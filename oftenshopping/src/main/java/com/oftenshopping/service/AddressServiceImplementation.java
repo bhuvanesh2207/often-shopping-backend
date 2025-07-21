@@ -1,6 +1,7 @@
 package com.oftenshopping.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,17 +39,19 @@ public class AddressServiceImplementation implements AddressService {
 		addrRepo.save(addr);
 	}
 
-
 	@Override
 	public List<Address> getAddress(Long customerId) {
-		 return addrRepo.findByCustomerId(customerId);
+		return addrRepo.findByCustomerId(customerId);
 	}
-
 
 	@Override
 	public void removeAddress(Long id) {
 		addrRepo.deleteById(id);
 	}
 
+	@Override
+	public Optional<Address> getAddressById(Long id) {
+		return addrRepo.findById(id);
+	}
 
 }

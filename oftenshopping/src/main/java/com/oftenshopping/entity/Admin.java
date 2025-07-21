@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 
@@ -22,8 +24,10 @@ public class Admin {
 	private String businessName;
 	private String businessType;
 	private String gstNumber;
+	@Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]", message = "Invalid PAN format")
 	private String panNumber;
 	@Column(unique = true)
+	@Email(message = "Invalid email format")
 	private String companyEmail;
 	private String password;
 	private String businessAddress;

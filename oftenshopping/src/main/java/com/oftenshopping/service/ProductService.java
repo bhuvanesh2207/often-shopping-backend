@@ -1,6 +1,7 @@
 package com.oftenshopping.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.oftenshopping.DTO.CreateProductDTO;
 import com.oftenshopping.DTO.UpdateProductDTO;
@@ -19,5 +20,7 @@ public interface ProductService {
 	List<Product> searchProduct(String keyword);
 
 	List<Product> viewAllProduct();
+
+	List<Product> getProductById(Long id);
 
 }
