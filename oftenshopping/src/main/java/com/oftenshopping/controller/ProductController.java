@@ -16,7 +16,7 @@ import com.oftenshopping.DTO.UpdateProductDTO;
 import com.oftenshopping.entity.Product;
 import com.oftenshopping.service.ProductService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RestController
 public class ProductController {
 
@@ -60,7 +60,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/getProductById")
-	public List<Product> getProductById(@RequestParam Long id) {
+	public List<Product> getProductById(@RequestParam List<Long> id) {
 		return service.getProductById(id);
 	}
 }

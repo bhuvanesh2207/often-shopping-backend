@@ -82,7 +82,7 @@ public class ProductServiceImplementation implements ProductService {
 	}
 
 	@Override
-	public List<Product> getProductById(Long id) {
+	public List<Product> getProductById(List<Long> id) {
 		return repo.findAllById(id);
 	}
 
