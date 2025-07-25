@@ -41,7 +41,7 @@ public class OrdresServiceImplementation implements OrdersService {
 		orders.setOrdertime(orderDTO.getOrdertime());
 		orders.setPaymentId(orderDTO.getPaymentId());
 		orders.setTotAmount(orderDTO.getTotAmount());
-
+		orders.setStatus(orderDTO.getStatus());
 		// Create a list for the OrderItem 
 		List<OrderItem> orderItems = new ArrayList<>();
 

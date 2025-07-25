@@ -1,7 +1,6 @@
 package com.oftenshopping.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -54,7 +53,7 @@ public class ProductController {
 	}
 
 	// customer products
-	@GetMapping("/viewAllProducts")
+	@GetMapping("/viewAllProducts")	
 	public List<Product> viewAllProduct() {
 		return service.viewAllProduct();
 	}

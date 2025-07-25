@@ -1,5 +1,8 @@
 package com.oftenshopping.service;
 
+import java.util.List;
+
+import com.oftenshopping.DTO.AdminOrderedProductDTO;
 import com.oftenshopping.DTO.AdminSignupDTO;
 import com.oftenshopping.entity.Admin;
 
@@ -17,5 +20,7 @@ public interface AdminService {
 
 	void changePasswordotp(String email);
 
+	List<AdminOrderedProductDTO> getOrderedProducts(Long id);
 
+	void confrimOrder(Long id);
 }

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oftenshopping.DTO.AdminOtpValidateDTO;
 import com.oftenshopping.DTO.EmailRequestDTO;
-import com.oftenshopping.DTO.OtpValidateDTO;
 import com.oftenshopping.DTO.SetPasswordDTO;
 import com.oftenshopping.service.OtpService;
 
@@ -25,7 +25,7 @@ public class OtpController {
 	}
 	
 	@PostMapping("/verifyOtp")
-	public void verifyOtp(@RequestBody OtpValidateDTO otpdto) {
+	public void verifyOtp(@RequestBody AdminOtpValidateDTO otpdto) {
 		service.verifyOtp(otpdto);
 	}
 	

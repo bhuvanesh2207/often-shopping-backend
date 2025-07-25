@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oftenshopping.DTO.OtpValidateDTO;
+import com.oftenshopping.DTO.AdminOtpValidateDTO;
 import com.oftenshopping.DTO.SetPasswordDTO;
 import com.oftenshopping.entity.Admin;
 import com.oftenshopping.entity.Otp;
@@ -48,7 +48,7 @@ public class OtpServiceImplementation implements OtpService {
 	}
 
 	@Override
-	public boolean verifyOtp(OtpValidateDTO otpdto) {
+	public boolean verifyOtp(AdminOtpValidateDTO otpdto) {
 		Otp otp = otpRepo.findByEmail(otpdto.getEmail());
 		SetPasswordDTO setpass = new SetPasswordDTO();
 		if (otp != null && otp.getOtp().equals(otpdto.getOtp())) {

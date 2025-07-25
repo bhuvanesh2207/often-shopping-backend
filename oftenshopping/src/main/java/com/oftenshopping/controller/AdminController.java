@@ -1,5 +1,7 @@
 package com.oftenshopping.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oftenshopping.DTO.AdminOrderedProductDTO;
 import com.oftenshopping.DTO.AdminSignupDTO;
 import com.oftenshopping.entity.Admin;
 import com.oftenshopping.service.AdminService;
@@ -47,4 +50,13 @@ public class AdminController {
 		return service.getByCompanyEmail(email);
 	}
 	
+	@GetMapping("/getOrderedProducts")
+	public List<AdminOrderedProductDTO> getOrderedProducts (@RequestParam Long id){
+		return service.getOrderedProducts(id);
+	}
+	
+	@GetMapping("/confirmOrder")
+	public void confrimOrder(@RequestParam Long id) {
+		service.confrimOrder(id);
+	}
 }

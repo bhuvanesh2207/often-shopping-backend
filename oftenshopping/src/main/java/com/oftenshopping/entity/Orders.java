@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Orders {
@@ -22,11 +23,13 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String paymentId;
 	private LocalDateTime ordertime;
 	private Double totAmount;
 	private String Address;
+	private String status;
+
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	@JsonBackReference
@@ -40,28 +43,42 @@ public class Orders {
 	@JsonManagedReference
 	private Payment paymnet;
 
+	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "delivery_person_id")
+	private DeliveryPerson deliveryPerson;
+
+	@PrePersist
+	public void setStatus() {
+		this.status = "PENDING";
+	}
+
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, String address,
-			Customer customer, List<OrderItem> items, Payment paymnet) {
+
+	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, String address, String status,
+			Customer customer, List<OrderItem> items, Payment paymnet, DeliveryPerson deliveryPerson) {
 		super();
 		this.id = id;
 		this.paymentId = paymentId;
 		this.ordertime = ordertime;
 		this.totAmount = totAmount;
 		Address = address;
+		this.status = status;
 		this.customer = customer;
 		this.items = items;
 		this.paymnet = paymnet;
+		this.deliveryPerson = deliveryPerson;
 	}
 
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", paymentId=" + paymentId + ", ordertime=" + ordertime + ", totAmount=" + totAmount
-				+ ", Address=" + Address + ", customer=" + customer + ", items=" + items + ", paymnet=" + paymnet + "]";
+				+ ", Address=" + Address + ", status=" + status + ", customer=" + customer + ", items="
+				+ items + ", paymnet=" + paymnet + ", deliveryPerson=" + deliveryPerson + "]";
 	}
 
 	public Long getId() {
@@ -104,6 +121,14 @@ public class Orders {
 		Address = address;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -128,4 +153,11 @@ public class Orders {
 		this.paymnet = paymnet;
 	}
 
+	public DeliveryPerson getDeliveryPerson() {
+		return deliveryPerson;
+	}
+
+	public void setDeliveryPerson(DeliveryPerson deliveryPerson) {
+		this.deliveryPerson = deliveryPerson;
+	}
 }

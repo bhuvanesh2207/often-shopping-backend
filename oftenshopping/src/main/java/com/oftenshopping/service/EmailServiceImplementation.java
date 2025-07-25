@@ -9,8 +9,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.oftenshopping.DTO.AdminSignupDTO;
+import com.oftenshopping.DTO.DeliverySignupDTO;
 import com.oftenshopping.entity.Admin;
+import com.oftenshopping.entity.DeliveryPerson;
 import com.oftenshopping.repository.AdminRepository;
+import com.oftenshopping.repository.DeliveryPersonRepository;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -24,6 +27,8 @@ public class EmailServiceImplementation implements EmailService {
 	@Autowired
 	AdminRepository repo;
 	
+	@Autowired
+	DeliveryPersonRepository deliveryRepo;
 	
 	public void processSignup(AdminSignupDTO adminDto) throws MessagingException {
 		// setting status as pending and saving in db
@@ -136,5 +141,115 @@ public class EmailServiceImplementation implements EmailService {
 	        System.out.println("Failed to send email: " + e.getMessage());
 	    }
 	}
+		
+		public void processDeliverySignup(DeliverySignupDTO deliveryDto) throws MessagingException {
+		    DeliveryPerson dp = new DeliveryPerson();
+		    dp.setName(deliveryDto.getName());
+		    dp.setEmail(deliveryDto.getEmail());
+		    dp.setPhone(deliveryDto.getPhoneNumber()); 
+		    dp.setAddress(deliveryDto.getAddress());
+		    dp.setDocumentUrl(deliveryDto.getDocumentUrl());
+		    dp.setStatus("PENDING");
 	
-}
+		    DeliveryPerson savedDP = deliveryRepo.save(dp);
+	
+		    MimeMessage message = mailSender.createMimeMessage();
+		    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+	
+		    helper.setTo("otpspring@gmail.com");
+		    helper.setSubject("New Delivery Person Signup Request");
+	
+		    String body = "<h2>New Delivery Person Signup</h2>"
+		        + "<p><strong>Name:</strong> " + dp.getName() + "<br>"
+		        + "<strong>Email:</strong> " + dp.getEmail() + "<br>"
+		        + "<strong>Phone:</strong> " + dp.getPhone() + "<br>"
+		        + "<strong>Address:</strong> " + dp.getAddress() + "<br>"
+		        + "<strong>Document URL:</strong> " + dp.getDocumentUrl() + "</p><br>"
+		        + "<a href='http://localhost:8080/deliveryApproved?id=" + savedDP.getId() + "' "
+		        + "style='padding:10px;background-color:green;color:white;text-decoration:none;'>Approve</a> "
+		        + "<a href='http://localhost:8080/deliveryRejected?id=" + savedDP.getId() + "' "
+		        + "style='padding:10px;background-color:red;color:white;text-decoration:none;'>Reject</a>";
+	
+		    helper.setText(body, true);
+		    mailSender.send(message);
+		}
+		
+		@Override
+		public void delapproved(Long id) {
+		    DeliveryPerson deliveryPerson = deliveryRepo.findById(id)
+		        .orElseThrow(() -> new RuntimeException("Delivery person not found with ID: " + id));
+	
+		    // Generate random temporary password
+		    SecureRandom random = new SecureRandom();
+		    int num = 100000 + random.nextInt(900000);
+		    String password = String.valueOf(num);
+	
+		    deliveryPerson.setPassword(password);
+		    deliveryPerson.setStatus("APPROVED");
+		    deliveryRepo.save(deliveryPerson);
+	
+		    // Send approval mail
+		    SimpleMailMessage message = new SimpleMailMessage();
+		    message.setTo(deliveryPerson.getEmail());
+		    message.setSubject("Delivery Person Application Approved - OftenShopping");
+	
+		    String body = "Dear " + deliveryPerson.getName() + ",\n\n"
+		            + "Your application to become a delivery partner has been approved.\n"
+		            + "Your temporary password is: " + password + "\n\n"
+		            + "Please log in and change your password after logging in.\n\n"
+		            + "Regards,\nThe OftenShopping Team";
+	
+		    message.setText(body);
+		    mailSender.send(message);
+		}
+	
+	
+		@Override
+		public void delrejected(Long id) {
+		    DeliveryPerson deliveryPerson = deliveryRepo.findById(id)
+		        .orElseThrow(() -> new RuntimeException("Delivery person not found with ID: " + id));
+	
+		    deliveryPerson.setStatus("REJECTED");
+		    deliveryRepo.save(deliveryPerson);
+	
+		    SimpleMailMessage message = new SimpleMailMessage();
+		    message.setTo(deliveryPerson.getEmail());
+		    message.setSubject("Delivery Person Application Rejected - OftenShopping");
+	
+		    String body = "Dear " + deliveryPerson.getName() + ",\n\n"
+		            + "Thank you for applying to be a delivery partner with OftenShopping.\n"
+		            + "After reviewing your application, we regret to inform you that it does not meet our current requirements.\n\n"
+		            + "You are welcome to apply again in the future if your circumstances change.\n\n"
+		            + "For questions, reach out to support@oftenshopping.com.\n\n"
+		            + "Best regards,\nThe OftenShopping Team";
+	
+		    message.setText(body);
+		    mailSender.send(message);
+		}
+		
+		public void delsendOtpMail(String email, String otp) {
+		    try {
+		        SimpleMailMessage message = new SimpleMailMessage();
+		        message.setTo(email);
+		        message.setSubject("OTP to Change Password");
+		        message.setText("Your OTP to reset your password is: " + otp);
+		        mailSender.send(message);
+		        System.out.println("Email sent to: " + email);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        System.out.println("Failed to send email: " + e.getMessage());
+		    }
+		}
+
+	
+
+		@Override
+		public void sendDeliveryOtpEmail(String email, String otpStr) {
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setTo(email);
+	        message.setSubject("Delivery Confirm OTP");
+			message.setText("Your OTP to Confirm your Deleivery: " + otpStr);
+			mailSender.send(message);			
+		}
+		
+	}
