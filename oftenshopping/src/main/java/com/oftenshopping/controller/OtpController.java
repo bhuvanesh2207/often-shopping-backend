@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oftenshopping.DTO.AdminOtpValidateDTO;
+import com.oftenshopping.DTO.DeliveryOtpValidateDTO;
+import com.oftenshopping.DTO.DeliverySetPasswordDTO;
 import com.oftenshopping.DTO.EmailRequestDTO;
 import com.oftenshopping.DTO.SetPasswordDTO;
 import com.oftenshopping.service.OtpService;
@@ -32,5 +34,15 @@ public class OtpController {
 	@PostMapping("/setPassword")
 	public void resetPasswordForEmail(@RequestBody SetPasswordDTO setpass) {
 		service.resetPasswordForEmail(setpass);
+	}
+	
+	@PostMapping("/deliveryPerOtpVerification")
+	public boolean deliveryperOtpVerification(@RequestBody DeliveryOtpValidateDTO otpvalid) {
+		return service.deliveryperOtpVerification(otpvalid);
+	}
+	
+	@PostMapping("/deliveryPerResetPassword")
+	public void deliveryPerResetPassword(@RequestBody DeliverySetPasswordDTO setpass) {
+		service.deliveryPerResetPassword(setpass);
 	}
 }

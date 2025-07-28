@@ -12,12 +12,14 @@ import com.oftenshopping.DTO.DeliveryConfirmedProductDTO;
 import com.oftenshopping.DTO.DeliverySignupDTO;
 import com.oftenshopping.entity.Customer;
 import com.oftenshopping.entity.CustomerDeliveryOtp;
+import com.oftenshopping.entity.DeliveryPerPassChangeOtp;
 import com.oftenshopping.entity.DeliveryPerson;
 import com.oftenshopping.entity.OrderItem;
 import com.oftenshopping.entity.Orders;
 import com.oftenshopping.entity.Product;
 import com.oftenshopping.repository.CustomerDeliveryOtpRepository;
 import com.oftenshopping.repository.CustomerRepository;
+import com.oftenshopping.repository.DeliveryPerPassChangeOtpRepository;
 import com.oftenshopping.repository.DeliveryPersonRepository;
 import com.oftenshopping.repository.OrdersRepository;
 
@@ -40,7 +42,12 @@ public class DeliveryPersonServiceImplementation implements DeliveryPersonServic
 
 	@Autowired
 	CustomerDeliveryOtpRepository delOtpRepo;
-
+	
+	@Autowired
+	DeliveryPerPassChangeOtpRepository delpassRepo;
+	
+	@Autowired
+	OtpServiceImplementation otpService;
 	@Override
 	public void deliverySignup(DeliverySignupDTO deliveryDto) throws MessagingException {
 		eservice.processDeliverySignup(deliveryDto);
@@ -121,8 +128,10 @@ public class DeliveryPersonServiceImplementation implements DeliveryPersonServic
 			CustomerDeliveryOtp storedOtp = otpOptional.get();
 
 			if (storedOtp.getOtp().equals(String.valueOf(otp))) {
+				delOtpRepo.delete(storedOtp);
 				return "OTP verified successfully!";
-			} else {
+				
+			} else {	
 				return "Invalid OTP!";
 			}
 		} else {
@@ -148,4 +157,12 @@ public class DeliveryPersonServiceImplementation implements DeliveryPersonServic
 		return "OUT FOR DELIVERY SUCCESSFULLY....";
 	}
 
+	@Override
+	public void deliveryPerChangePasswordotp(String email) {
+		Optional<DeliveryPerson> delPer = repo.findByEmail(email);
+		otpService.sendDeliveryPerChangePassword(email);
+		
+	}
+	
+	
 }

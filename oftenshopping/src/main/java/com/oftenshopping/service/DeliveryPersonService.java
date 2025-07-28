@@ -29,4 +29,6 @@ public interface DeliveryPersonService {
 	String deliverd(Long orderId);
 
 	String outForDelivered(Long orderId);
+
+	void deliveryPerChangePasswordotp(String email);
 }

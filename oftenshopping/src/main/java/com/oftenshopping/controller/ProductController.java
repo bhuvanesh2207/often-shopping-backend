@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oftenshopping.DTO.AddReviewDTO;
 import com.oftenshopping.DTO.CreateProductDTO;
 import com.oftenshopping.DTO.UpdateProductDTO;
 import com.oftenshopping.entity.Product;
@@ -61,5 +62,10 @@ public class ProductController {
 	@GetMapping("/getProductById")
 	public List<Product> getProductById(@RequestParam List<Long> id) {
 		return service.getProductById(id);
+	}
+	
+	@PostMapping("/addReview")
+	public void addReview(@RequestBody AddReviewDTO review) {
+		 service.addReview(review);
 	}
 }

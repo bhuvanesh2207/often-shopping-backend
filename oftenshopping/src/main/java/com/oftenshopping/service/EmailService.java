@@ -25,4 +25,6 @@ public interface EmailService {
 
 	void sendDeliveryOtpEmail(String email, String otpStr);
 
+	void passChangeOtp(String email, String strOtp);
+
 }

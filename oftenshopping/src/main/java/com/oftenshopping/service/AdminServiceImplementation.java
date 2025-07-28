@@ -109,7 +109,7 @@ public class AdminServiceImplementation implements AdminService {
 	        if (validPerson.isPresent()) {
 	            assignedPerson = validPerson.get();
 	        } else {
-	            personList.remove(index); // Remove invalid person and try again
+	            personList.remove(index); 
 	        }
 	    }
 

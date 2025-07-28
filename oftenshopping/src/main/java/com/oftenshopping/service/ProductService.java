@@ -3,6 +3,7 @@ package com.oftenshopping.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.oftenshopping.DTO.AddReviewDTO;
 import com.oftenshopping.DTO.CreateProductDTO;
 import com.oftenshopping.DTO.UpdateProductDTO;
 import com.oftenshopping.entity.Product;
@@ -22,5 +23,7 @@ public interface ProductService {
 	List<Product> viewAllProduct();
 
 	List<Product> getProductById(List<Long> id);
+
+	void addReview(AddReviewDTO review);
 
 }

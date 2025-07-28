@@ -10,8 +10,9 @@ import com.oftenshopping.entity.Orders;
 
 
 public interface DeliveryPersonRepository extends JpaRepository<DeliveryPerson, Long>{
-
-	Optional<DeliveryPerson> findByEmail(String email); 
+	Optional<DeliveryPerson> findByEmail(String email);
 
 	List<Orders> findByDeliveryPersonId(Long id);
+
+	Optional<DeliveryPerson> getByEmail(String deliveryEmail);
 }

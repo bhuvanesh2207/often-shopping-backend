@@ -33,40 +33,38 @@ public class OrdresServiceImplementation implements OrdersService {
 	@Override
 	@Transactional 
 	public void createOrder(OrderDTO orderDTO) {
-		 Customer customer = cusRepo.findById(orderDTO.getCustomerId())
-			        .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + orderDTO.getCustomerId()));
-		Orders orders = new Orders();
-		orders.setCustomer(customer);
-		orders.setAddress(orderDTO.getAddress());
-		orders.setOrdertime(orderDTO.getOrdertime());
-		orders.setPaymentId(orderDTO.getPaymentId());
-		orders.setTotAmount(orderDTO.getTotAmount());
-		orders.setStatus(orderDTO.getStatus());
-		// Create a list for the OrderItem 
-		List<OrderItem> orderItems = new ArrayList<>();
+	    Customer customer = cusRepo.findById(orderDTO.getCustomerId())
+	            .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + orderDTO.getCustomerId()));
 
-		// Loop over each OrderItemDTO
-		for (OrderItemDTO itemDto : orderDTO.getItems()) {
-			OrderItem orderItem = new OrderItem();
+	    Orders orders = new Orders();
+	    orders.setCustomer(customer);
+	    orders.setAddress(orderDTO.getAddress());
+	    orders.setOrdertime(orderDTO.getOrdertime());
+	    orders.setPaymentId(orderDTO.getPaymentId());
+	    orders.setTotAmount(orderDTO.getTotAmount());
 
-			// Fetch the Product entity from the database
-			Product product = productRepo.findById(itemDto.getProductId())
-					.orElseThrow(() -> new RuntimeException("Product not found: " + itemDto.getProductId()));
+	    // ✅ Safe fallback
+	    if (orderDTO.getStatus() == null || orderDTO.getStatus().trim().isEmpty()) {
+	        orders.setStatus("PENDING");
+	    } else {
+	        orders.setStatus(orderDTO.getStatus().trim());
+	    }
 
-			orderItem.setProduct(product);
-			orderItem.setQuantity(itemDto.getQuantity());
-			orderItem.setOrders(orders);
+	    List<OrderItem> orderItems = new ArrayList<>();
+	    for (OrderItemDTO itemDto : orderDTO.getItems()) {
+	        Product product = productRepo.findById(itemDto.getProductId())
+	                .orElseThrow(() -> new RuntimeException("Product not found: " + itemDto.getProductId()));
 
-			// Adding order item to the list
-			orderItems.add(orderItem);
-		}
+	        OrderItem orderItem = new OrderItem();
+	        orderItem.setProduct(product);
+	        orderItem.setQuantity(itemDto.getQuantity());
+	        orderItem.setOrders(orders);
+	        orderItems.add(orderItem);
+	    }
 
-		// Attach all order items to the order
-		orders.setItems(orderItems);
-
-		// Save the order
-		orderRepo.save(orders);
-		System.out.println(orders.getAddress());
+	    orders.setItems(orderItems);
+	    orderRepo.save(orders);
+	    System.out.println("Final saved status: " + orders.getStatus());
 	}
 
 

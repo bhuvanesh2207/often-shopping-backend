@@ -251,5 +251,14 @@ public class EmailServiceImplementation implements EmailService {
 			message.setText("Your OTP to Confirm your Deleivery: " + otpStr);
 			mailSender.send(message);			
 		}
+
+		@Override
+		public void passChangeOtp(String email, String strOtp) {
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setTo(email);
+			message.setSubject("Password Change Otp");
+			message.setText("Your OTP to reset password: " + strOtp);
+			mailSender.send(message);
+		}
 		
 	}

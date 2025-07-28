@@ -6,12 +6,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oftenshopping.DTO.AddReviewDTO;
 import com.oftenshopping.DTO.CreateProductDTO;
 import com.oftenshopping.DTO.UpdateProductDTO;
 import com.oftenshopping.entity.Admin;
 import com.oftenshopping.entity.Product;
+import com.oftenshopping.entity.Review;
 import com.oftenshopping.repository.AdminRepository;
 import com.oftenshopping.repository.ProductRepository;
+import com.oftenshopping.repository.ReviewRepository;
 
 @Service
 public class ProductServiceImplementation implements ProductService {
@@ -21,6 +24,9 @@ public class ProductServiceImplementation implements ProductService {
 
 	@Autowired
 	AdminRepository adrepo;
+
+	@Autowired
+	ReviewRepository reviewRepo;
 
 	@Override
 	public void create(CreateProductDTO createDto) {
@@ -35,6 +41,12 @@ public class ProductServiceImplementation implements ProductService {
 		p.setProductName(createDto.getProductName());
 		p.setPrice(createDto.getPrice());
 		p.setProductImage(createDto.getProductImage());
+		
+		double price = createDto.getPrice();
+	    double discount = createDto.getDiscount();
+	    double finalPrice = price - (price * discount / 100);
+	    p.setFinalPrice(finalPrice);
+	    
 		p.setAdmin(admin);
 		repo.save(p);
 	}
@@ -84,6 +96,22 @@ public class ProductServiceImplementation implements ProductService {
 	@Override
 	public List<Product> getProductById(List<Long> id) {
 		return repo.findAllById(id);
+	}
+
+	@Override
+	public void addReview(AddReviewDTO review) {
+		Optional<Product> prod = repo.findById(review.getProductId());
+		if (prod.isPresent()) {
+			Review reviews = new Review();
+			reviews.setRating(review.getRating());
+			reviews.setComment(review.getComment());
+			reviews.setReviewerName(review.getReviewerName());
+			reviews.setProduct(prod.get());
+			reviewRepo.save(reviews);
+
+		} else {
+			throw new RuntimeException("Product with ID " + review.getProductId() + " not found.");
+		}
 	}
 
 }

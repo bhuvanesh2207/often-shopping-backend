@@ -72,4 +72,10 @@ public class DeliveryPersonController {
 	public String deliverd(@RequestParam Long orderId) {
 		return service.deliverd(orderId);
 	}
+	
+	@GetMapping("/deliveryPerChangePasswordotp")
+	public void changePassword(@RequestParam String email) {
+	    service.deliveryPerChangePasswordotp(email);
+	}
+	
 }
