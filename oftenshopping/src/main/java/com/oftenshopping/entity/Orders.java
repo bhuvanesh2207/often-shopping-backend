@@ -50,14 +50,15 @@ public class Orders {
 
 	@PrePersist
 	public void setStatus() {
-		this.status = "PENDING";
+		if (this.status == null || this.status.trim().isEmpty()) {
+			this.status = "PENDING";
+		}
 	}
 
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public Orders(Long id, String paymentId, LocalDateTime ordertime, Double totAmount, String address, String status,
 			Customer customer, List<OrderItem> items, Payment paymnet, DeliveryPerson deliveryPerson) {
@@ -77,8 +78,8 @@ public class Orders {
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", paymentId=" + paymentId + ", ordertime=" + ordertime + ", totAmount=" + totAmount
-				+ ", Address=" + Address + ", status=" + status + ", customer=" + customer + ", items="
-				+ items + ", paymnet=" + paymnet + ", deliveryPerson=" + deliveryPerson + "]";
+				+ ", Address=" + Address + ", status=" + status + ", customer=" + customer + ", items=" + items
+				+ ", paymnet=" + paymnet + ", deliveryPerson=" + deliveryPerson + "]";
 	}
 
 	public Long getId() {

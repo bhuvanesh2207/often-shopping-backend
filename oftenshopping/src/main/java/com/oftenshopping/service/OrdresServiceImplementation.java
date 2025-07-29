@@ -43,7 +43,6 @@ public class OrdresServiceImplementation implements OrdersService {
 	    orders.setPaymentId(orderDTO.getPaymentId());
 	    orders.setTotAmount(orderDTO.getTotAmount());
 
-	    // ✅ Safe fallback
 	    if (orderDTO.getStatus() == null || orderDTO.getStatus().trim().isEmpty()) {
 	        orders.setStatus("PENDING");
 	    } else {
@@ -81,7 +80,7 @@ public class OrdresServiceImplementation implements OrdersService {
 	            Product product = item.getProduct();
 	            OrderItemDTO itemDTO = new OrderItemDTO();
 	            itemDTO.setQuantity(item.getQuantity());
-	            itemDTO.setProductId(product.getId()); // ✅ Include productId
+	            itemDTO.setProductId(product.getId()); 
 	            itemDTOs.add(itemDTO);
 	        }
 
@@ -90,7 +89,8 @@ public class OrdresServiceImplementation implements OrdersService {
 	        dto.setOrdertime(order.getOrdertime());
 	        dto.setTotAmount(order.getTotAmount());
 	        dto.setItems(itemDTOs);
-	        dto.setAddress(order.getAddress()); // or fetch actual Address object if needed
+	        dto.setStatus(order.getStatus());
+	        dto.setAddress(order.getAddress()); 
 
 	        orderDTOs.add(dto);
 	    }
