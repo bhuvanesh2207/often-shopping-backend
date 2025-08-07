@@ -1,6 +1,7 @@
 package com.oftenshopping.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,5 +30,15 @@ public class OrdersController {
 	@GetMapping("/listOfOrders")
 	public List<OrderDTO> listOfOrders (Long id) {
 		return service.listOfOrders(id);
+	}
+	
+	@GetMapping("/getDeliveredOrders")
+	public List<Orders> getDeliveredOrders (Long cusId){
+		return service.getDeliveredOrders(cusId);
+	}
+	
+	@GetMapping("/getOrderById")
+	public Optional<Orders> getOrderById(Long orderId) {
+		return service.getOrderById(orderId);
 	}
 }
