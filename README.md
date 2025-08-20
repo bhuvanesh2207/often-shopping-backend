@@ -77,3 +77,9 @@ mvn spring-boot:run
 
 ## 🎯 Conclusion
 This E-Commerce Backend System demonstrates the use of Spring Boot Microservices in building a scalable, modular, and secure application. It provides essential features such as role-based access, product management, order handling, and real-time delivery tracking. The architecture is designed to be easily extendable, making it adaptable for future enhancements such as payment gateway integration, recommendation systems, and advanced analytics, ensuring long-term scalability and business growth.
+
+## 📞 Contact  
+For any questions or suggestions, feel free to reach out:  
+
+- **Email:** bhuvaneshb546@gmail.com
+- **LinkedIn:** [Bhuvanesh KR](https://www.linkedin.com/in/bhuvanesh-kr/)  
