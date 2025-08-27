@@ -16,8 +16,7 @@ This project is a **Full Stack Java e-commerce solution** built using **Spring B
 
 ## 💻 Tech Stack  
 - **Java 17** (Core programming language)  
-- **Spring Boot 3.1** (Backend framework)  
-- **Spring Security** (Authentication & Authorization)  
+- **Spring Boot 3.1** (Backend framework) 
 - **MySQL 8.0** (Database)  
 - **Maven** (Dependency management & build tool)  
 - **Postman** (API Testing)  
